@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@200..800&display=swap');
+
+:root {
+    --yellow: #FFD15B;
+    --white: #FFFFFF;
+    --lightgray: #7A7A7A;
+    --grey: #EDEDED;
+    --black: #1B1B1B;
+
+    --titleFont: 'Anton', sans-serif;
+    --bodyFont: 'Manrope', sans-serif;
+
+    --bold: 700;
+    --lightbold: 500;
+    --regular: 400;
+    --light: 300;
+
+    --titleFontSize: 2.75rem;
+    --subtitleFontSize: 1.5rem;
+    --bodyFontSize: 1rem;
+
+    --titleCardFontSize: 1.125rem;
+    --titleCardLineHeight: 1.5rem;
+    --subtitleCardFontSize: .75rem;
+    --bodyCardFontSize: .875rem;
+
+
+    --lightRadius: .75rem;
+    --boldRadius: 1.5rem;
+    --fullRadius: 100%;
+
+    --spacing-xxs: 0.25rem;
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 0.75rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.25rem;
+    --spacing-xl: 1.5rem;
+    --spacing-2xl: 2rem;
+    --spacing-3xl: 2.5rem;
+    --spacing-4xl: 3rem;
+    --spacing-5xl: 3.5rem;
+    --spacing-6xl: 4rem;
+    --spacing-body: 100px;
+
+    --titleMargin: 0 275px var(--spacing-2xl) 275px;
+    --titleLineHeight: 66px;
+}
