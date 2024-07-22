@@ -85,6 +85,7 @@ body {
 .recipeCard{
     border-radius: var(--boldRadius);
     background-color: var(--white);
+    position: relative;
 }
 
 .recipeCardImage{
@@ -95,7 +96,7 @@ body {
 }
 
 .recipeCardContent{
-    padding: var(--spacing-xl) var(--spacing-2xl);
+    padding:var(--spacing-2xl) var(--spacing-xl) var(--spacing-6xl) var(--spacing-xl);
     font-size: var(--bodyCardFontSize);
 }
 
@@ -127,4 +128,13 @@ body {
 
 .recipeCardIngredientsQuantity{
     color: var(--lightgray);
+}
+
+.recipeDuration{
+    position: absolute;
+    top: var(--spacing-xl);
+    right: var(--spacing-xl);
+    background-color: var(--yellow);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--boldRadius);
 }

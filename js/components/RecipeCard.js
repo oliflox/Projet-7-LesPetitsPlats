@@ -4,7 +4,7 @@ function truncateByWords(str, maxWords) {
 }
 
 export const render = (recipes) => {
-    const {image, name, ingredients, description} = recipes;
+    const {image, name, ingredients, description, time} = recipes;
     const truncatedDescription = truncateByWords(description, 30);
     const ingredientsHtml = ingredients.map(({ingredient, quantity = '', unit = ''}) => `
         <div>
@@ -15,6 +15,9 @@ export const render = (recipes) => {
     
     return `
         <div class="recipeCard">
+            <div class="recipeDuration">
+                ${time} min
+            </div>
             <img class="recipeCardImage" src="../assets/recipies/${image}" alt="${name}">
             <div class="recipeCardContent">
                 <h3 class="recipeCardTitle">${name}</h3>
