@@ -1,50 +1,31 @@
-const Ingredients = () => {
+const filter = (id, buttonText, options) => {
+    const optionsHTML = options.map(option => `<li class="dropdown-item" data-value="${option}">${option}</li>`).join('');
     return `
-        <div class="dropdown" id="ingredients">
+        <div class="dropdown" id="${id}">
             <button class="dropdown-button">
-                Select Ingredient
+                ${buttonText}
                 <i class="fa fa-angle-down"></i>
             </button>
             <ul class="dropdown-menu hidden">
-                <li class="dropdown-item" data-value="Salt">Salt</li>
-                <li class="dropdown-item" data-value="Sugar">Sugar</li>
-                <li class="dropdown-item" data-value="Flour">Flour</li>
-            </ul>
-        </div>
-    `;
-
-};
-
-const ustensils = () => {
-    return `
-        <div class="dropdown" id="utensils">
-            <button class="dropdown-button">
-                Select Utensil
-                <i class="fa fa-angle-down"></i>
-            </button>
-            <ul class="dropdown-menu hidden">
-                <li class="dropdown-item" data-value="Spoon">Spoon</li>
-                <li class="dropdown-item" data-value="Fork">Fork</li>
-                <li class="dropdown-item" data-value="Knife">Knife</li>
+                ${optionsHTML}
             </ul>
         </div>
     `;
 };
 
-const servings = () => {
-    return `
-        <div class="dropdown" id="servings">
-            <button class="dropdown-button">
-                Select Servings
-                <i class="fa fa-angle-down"></i>
-            </button>
-            <ul class="dropdown-menu hidden">
-                <li class="dropdown-item" data-value="1">1</li>
-                <li class="dropdown-item" data-value="2">2</li>
-                <li class="dropdown-item" data-value="3">3</li>
-            </ul>
-        </div>
-    `;
+const ingredients = (recipes) => {
+    const uniqueIngredients = [...new Set(recipes.flatMap(recipe => recipe.ingredients.map(ingredients => ingredients.ingredient.toLowerCase())))];
+    return filter("Ingredients", "Ingredients", uniqueIngredients);
+};
+
+const Ustensiles = (recipes) => {
+    const uniqueUstensiles = [...new Set(recipes.flatMap(recipe => recipe.ustensils.map(ustensil => ustensil.toLowerCase())))];
+    return filter("Ustensiles", "Utensiles", uniqueUstensiles);
+};
+
+const Appareils = (recipes) => {
+    const appliances = [...new Set(recipes.map(recipe => recipe.appliance.toLowerCase()))];
+    return filter("Appareils", "Appareils", appliances);
 };
 
 export const customSelectEvent = () => {
@@ -125,7 +106,6 @@ export const customSelectEvent = () => {
         updateSelectedItems();
     };
 
-    // Initialize selected items on page load
     updateSelectedItems();
 }
 
@@ -135,9 +115,9 @@ export const render = (recipes) => {
     return `
     <div class="recipeHeader">
         <div class="dropdown-container">
-            ${Ingredients()}
-            ${ustensils()}
-            ${servings()}
+            ${ingredients(recipes)}
+            ${Ustensiles(recipes)}
+            ${Appareils(recipes)}
         </div>
         <h3>${length > 0 ? `${length} recettes` : 'Aucune recette trouvée'}</h3>
     </div>
