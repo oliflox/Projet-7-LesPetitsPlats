@@ -45,4 +45,6 @@
 
     --titleMargin: 0 275px var(--spacing-2xl) 275px;
     --titleLineHeight: 66px;
+
+    --filterWidth: 12.5rem;
 }
