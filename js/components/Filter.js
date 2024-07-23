@@ -47,58 +47,86 @@ const servings = () => {
     `;
 };
 
-function updateURL(selectedValue) {
-    const url = new URL(window.location);
-    url.searchParams.set('sort', selectedValue);
-    window.history.pushState({}, '', url);
-}
-
 export const customSelectEvent = () => {
-    const dropdowns = document.querySelectorAll(".dropdown");
+    const dropdowns = document.querySelectorAll('.dropdown');
+    const selectedItemsContainer = document.getElementById('selectedItemsContainer');
 
     dropdowns.forEach(dropdown => {
-        const dropdownButton = dropdown.querySelector(".dropdown-button");
-        const dropdownMenu = dropdown.querySelector(".dropdown-menu");
-        const dropdownItems = dropdown.querySelectorAll(".dropdown-item");
-        const dropdownArrow = dropdownButton.querySelector(".fa");
+        const button = dropdown.querySelector('.dropdown-button');
+        const menu = dropdown.querySelector('.dropdown-menu');
+        const items = dropdown.querySelectorAll('.dropdown-item');
+        const selectedValues = new Set();
 
-        dropdownButton.addEventListener("click", () => {
-            toggleDropdown(dropdownMenu, dropdownArrow);
+        button.addEventListener('click', () => {
+            menu.classList.toggle('show');
+            updateArrow(button, menu.classList.contains('show'));
         });
 
-        dropdownItems.forEach(item => {
-            item.addEventListener("click", (event) => {
-                const selectedValue = event.target.getAttribute("data-value");
-                updateURL(dropdown.id, selectedValue);
-                closeDropdown(dropdownMenu, dropdownArrow);
+        items.forEach(item => {
+            item.addEventListener('click', () => {
+                const value = item.getAttribute('data-value');
+                if (selectedValues.has(value)) {
+                    selectedValues.delete(value);
+                } else {
+                    selectedValues.add(value);
+                }
+                updateUrl(dropdown.id, Array.from(selectedValues));
+                updateSelectedItems();
             });
-        });
-
-        window.addEventListener("click", (event) => {
-            if (!dropdown.contains(event.target)) {
-                closeDropdown(dropdownMenu, dropdownArrow);
-            }
         });
     });
 
-    function toggleDropdown(menu, arrow) {
-        const isOpen = menu.classList.contains("show");
-        menu.classList.toggle("show");
-        arrow.classList.toggle("fa-angle-down", !isOpen);
-        arrow.classList.toggle("fa-angle-up", isOpen);
-    }
+    const updateArrow = (button, isOpen) => {
+        const arrow = button.querySelector('i');
+        arrow.classList.toggle('fa-angle-down', !isOpen);
+        arrow.classList.toggle('fa-angle-up', isOpen);
+    };
 
-    function closeDropdown(menu, arrow) {
-        menu.classList.remove("show");
-        arrow.classList.add("fa-angle-down");
-        arrow.classList.remove("fa-angle-up");
-    }
-
-    function updateURL(filter, value) {
+    const updateUrl = (dropdownId, selectedOptions) => {
         const url = new URL(window.location);
-        url.searchParams.set(filter, value);
+        url.searchParams.set(dropdownId, selectedOptions.join(','));
         window.history.pushState({}, '', url);
-    }
+    };
+
+    const updateSelectedItems = () => {
+        selectedItemsContainer.innerHTML = '';
+
+        const url = new URL(window.location);
+        url.searchParams.forEach((value, key) => {
+            const values = value.split(',');
+            values.forEach(val => {
+                const item = document.createElement('div');
+                item.className = 'selected-item';
+                item.textContent = val;
+
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'remove-btn';
+                removeBtn.innerHTML = '&times;';
+                removeBtn.addEventListener('click', () => {
+                    removeSelectedItem(key, val);
+                });
+
+                item.appendChild(removeBtn);
+                selectedItemsContainer.appendChild(item);
+            });
+        });
+    };
+
+    const removeSelectedItem = (key, value) => {
+        const url = new URL(window.location);
+        const values = url.searchParams.get(key).split(',');
+        const newValues = values.filter(val => val !== value);
+        if (newValues.length > 0) {
+            url.searchParams.set(key, newValues.join(','));
+        } else {
+            url.searchParams.delete(key);
+        }
+        window.history.pushState({}, '', url);
+        updateSelectedItems();
+    };
+
+    // Initialize selected items on page load
+    updateSelectedItems();
 }
 
 export const render = (recipes) => {
@@ -113,6 +141,7 @@ export const render = (recipes) => {
         </div>
         <h3>${length > 0 ? `${length} recettes` : 'Aucune recette trouvée'}</h3>
     </div>
+     <div class="selected-items" id="selectedItemsContainer"></div>
     `;
 };
 
