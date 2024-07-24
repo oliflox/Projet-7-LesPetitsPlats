@@ -1,17 +1,34 @@
 const filter = (id, buttonText, options) => {
     const optionsHTML = options.map(option => `<li class="dropdown-item" data-value="${option}">${option}</li>`).join('');
     return `
-        <div class="dropdown" id="${id}">
+       <div class="dropdown" id="${id}">
             <button class="dropdown-button">
                 ${buttonText}
                 <i class="fa fa-angle-down"></i>
             </button>
             <ul class="dropdown-menu hidden">
+             <input type="text" class="dropdown-search" placeholder="Search...">
                 ${optionsHTML}
             </ul>
         </div>
     `;
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+    const dropdowns = document.querySelectorAll('.dropdown');
+    dropdowns.forEach(dropdown => {
+        const searchInput = dropdown.querySelector('.dropdown-search');
+        const items = dropdown.querySelectorAll('.dropdown-item');
+        
+        searchInput.addEventListener('input', function() {
+            const filter = this.value.toLowerCase();
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(filter) ? '' : 'none';
+            });
+        });
+    });
+});
 
 const ingredients = (recipes) => {
     const uniqueIngredients = [...new Set(recipes.flatMap(recipe => recipe.ingredients.map(ingredients => ingredients.ingredient.toLowerCase())))];
@@ -119,7 +136,7 @@ export const render = (recipes) => {
             ${Ustensiles(recipes)}
             ${Appareils(recipes)}
         </div>
-        <h3>${length > 0 ? `${length} recettes` : 'Aucune recette trouvée'}</h3>
+        <h3 class="filterResult">${length > 0 ? `${length} recettes` : 'Aucune recette trouvée'}</h3>
     </div>
      <div class="selected-items" id="selectedItemsContainer"></div>
     `;

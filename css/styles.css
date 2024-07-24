@@ -29,6 +29,7 @@ body {
     font-size: var(--titleFontSize);
     font-family: var(--titleFont);
     font-weight: var(--regular);
+    text-transform: uppercase;
     color: var(--yellow);
     text-align: center;
     margin: var(--titleMargin);
@@ -63,6 +64,13 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.filterResult{
+    font-size: var(--subtitleFontSize);
+    font-family: var(--titleFont);
+    font-weight: var(--regular);
+
 }
 
 .recipeFilter {
@@ -177,6 +185,20 @@ body {
     top: 110%;
     max-height: 200px;
     overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.dropdown-search{
+    margin: var(--spacing-md);
+    padding: var(--spacing-xs);
+    width: calc(100% - var(--spacing-md) * 2);
+    border-radius: 2px;
+    border: solid 1px var(--lightgray);
+    color: var(--lightgray);
+}
+
+.dropdown-search:focus {
+    outline: none;
 }
 
 .dropdown-menu::-webkit-scrollbar {

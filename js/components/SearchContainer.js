@@ -4,8 +4,8 @@ export const SearchContainer = () => {
         <header class="headerLogo">
             <img src="/assets/img/Logo.png" alt="logo">
         </header>
-        <h1 class="headerTitle">CHERCHEZ PARMI PLUS DE 1500 RECETTES DU QUOTIDIEN,SIMPLES ET DÉLICIEUSES</h1>
-        <input class="headerInput inputElement" placeholder="Rechercher une recette, un ingrédient, ..." type="text">
+        <h1 class="headerTitle">cherchez parmi plus de 1500 recettes du quotidien, simples et délicieuses</h1>
+        <input class="headerInput inputElement" placeholder="rechercher une recette, un ingrédient, ..." type="text">
     </section>
     `;
 };
