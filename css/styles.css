@@ -203,17 +203,20 @@ body {
 
 .dropdown-menu::-webkit-scrollbar {
     border-radius: var(--lightRadius);
+    width: 10px;
 }
 
 .dropdown-menu::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: var(--lightRadius);
+    width: 10px;
   }
 
 .dropdown-menu::-webkit-scrollbar-thumb {
     background-color: var(--yellow);
     border-radius: var(--lightRadius);
-    height: 50px;
+    height: 40px;
+    
 }
 
 .dropdown-menu.hidden {
@@ -262,3 +265,4 @@ body {
     cursor: pointer;
     font-size: var(--subtitleFontSize);
 }
+

@@ -1,13 +1,14 @@
 const filter = (id, buttonText, options) => {
     const optionsHTML = options.map(option => `<li class="dropdown-item" data-value="${option}">${option}</li>`).join('');
     return `
-       <div class="dropdown" id="${id}">
+        <div class="dropdown" id="${id}">
             <button class="dropdown-button">
                 ${buttonText}
                 <i class="fa fa-angle-down"></i>
             </button>
             <ul class="dropdown-menu hidden">
-             <input type="text" class="dropdown-search" placeholder="Search...">
+                <input type="text" class="dropdown-search" placeholder="Search...">
+                <ul class="selected-items"></ul>
                 ${optionsHTML}
             </ul>
         </div>
@@ -16,28 +17,31 @@ const filter = (id, buttonText, options) => {
 
 document.addEventListener('DOMContentLoaded', () => {
     const dropdowns = document.querySelectorAll('.dropdown');
+    
     dropdowns.forEach(dropdown => {
         const searchInput = dropdown.querySelector('.dropdown-search');
         const items = dropdown.querySelectorAll('.dropdown-item');
         
-        searchInput.addEventListener('input', function() {
-            const filter = this.value.toLowerCase();
-            items.forEach(item => {
-                const text = item.textContent.toLowerCase();
-                item.style.display = text.includes(filter) ? '' : 'none';
+        if (searchInput && items.length > 0) {
+            searchInput.addEventListener('input', function() {
+                const filter = this.value.toLowerCase();
+                items.forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    item.style.display = text.includes(filter) ? '' : 'none';
+                });
             });
-        });
+        }
     });
 });
 
 const ingredients = (recipes) => {
-    const uniqueIngredients = [...new Set(recipes.flatMap(recipe => recipe.ingredients.map(ingredients => ingredients.ingredient.toLowerCase())))];
-    return filter("Ingredients", "Ingredients", uniqueIngredients);
+    const uniqueIngredients = [...new Set(recipes.flatMap(recipe => recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase())))];
+    return filter("Ingredients", "Ingrédients", uniqueIngredients);
 };
 
 const Ustensiles = (recipes) => {
     const uniqueUstensiles = [...new Set(recipes.flatMap(recipe => recipe.ustensils.map(ustensil => ustensil.toLowerCase())))];
-    return filter("Ustensiles", "Utensiles", uniqueUstensiles);
+    return filter("Ustensiles", "Ustensiles", uniqueUstensiles);
 };
 
 const Appareils = (recipes) => {
@@ -53,9 +57,11 @@ export const customSelectEvent = () => {
         const button = dropdown.querySelector('.dropdown-button');
         const menu = dropdown.querySelector('.dropdown-menu');
         const items = dropdown.querySelectorAll('.dropdown-item');
-        const selectedValues = new Set();
+        const selectedItemsList = dropdown.querySelector('.selected-items');
+        const dropdownId = dropdown.id;
 
-        button.addEventListener('click', () => {
+        button.addEventListener('click', (e) => {
+            e.stopPropagation();
             menu.classList.toggle('show');
             updateArrow(button, menu.classList.contains('show'));
         });
@@ -63,14 +69,32 @@ export const customSelectEvent = () => {
         items.forEach(item => {
             item.addEventListener('click', () => {
                 const value = item.getAttribute('data-value');
-                if (selectedValues.has(value)) {
-                    selectedValues.delete(value);
+                const url = new URL(window.location);
+                const currentValues = new Set(url.searchParams.get(dropdownId)?.split(',') || []);
+                
+                if (currentValues.has(value)) {
+                    currentValues.delete(value);
                 } else {
-                    selectedValues.add(value);
+                    currentValues.add(value);
                 }
-                updateUrl(dropdown.id, Array.from(selectedValues));
+
+                if (currentValues.size > 0) {
+                    url.searchParams.set(dropdownId, Array.from(currentValues).join(','));
+                } else {
+                    url.searchParams.delete(dropdownId);
+                }
+
+                window.history.pushState({}, '', url);
                 updateSelectedItems();
+                updateDropdownItems(dropdown);
             });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!dropdown.contains(e.target)) {
+                menu.classList.remove('show');
+                updateArrow(button, false);
+            }
         });
     });
 
@@ -80,73 +104,103 @@ export const customSelectEvent = () => {
         arrow.classList.toggle('fa-angle-up', isOpen);
     };
 
-    const updateUrl = (dropdownId, selectedOptions) => {
-        const url = new URL(window.location);
-        url.searchParams.set(dropdownId, selectedOptions.join(','));
-        window.history.pushState({}, '', url);
-    };
-
     const updateSelectedItems = () => {
+        const url = new URL(window.location);
         selectedItemsContainer.innerHTML = '';
 
-        const url = new URL(window.location);
-        url.searchParams.forEach((value, key) => {
-            const values = value.split(',');
+        dropdowns.forEach(dropdown => {
+            const dropdownId = dropdown.id;
+            const selectedItemsList = dropdown.querySelector('.selected-items');
+            selectedItemsList.innerHTML = '';
+
+            const values = url.searchParams.get(dropdownId)?.split(',') || [];
             values.forEach(val => {
-                const item = document.createElement('div');
+                const item = document.createElement('li');
                 item.className = 'selected-item';
                 item.textContent = val;
 
                 const removeBtn = document.createElement('button');
                 removeBtn.className = 'remove-btn';
                 removeBtn.innerHTML = '&times;';
-                removeBtn.addEventListener('click', () => {
-                    removeSelectedItem(key, val);
+                removeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    removeSelectedItem(dropdownId, val);
+                    updateDropdownItems(dropdown);
                 });
 
                 item.appendChild(removeBtn);
-                selectedItemsContainer.appendChild(item);
+                selectedItemsList.appendChild(item);
+                selectedItemsContainer.appendChild(item.cloneNode(true));
+            });
+        });
+
+        selectedItemsContainer.querySelectorAll('.selected-item .remove-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const value = btn.parentNode.textContent.trim();
+                const dropdownId = Object.keys(Object.fromEntries(url.searchParams)).find(id => {
+                    return url.searchParams.get(id)?.split(',').includes(value);
+                });
+                if (dropdownId) {
+                    removeSelectedItem(dropdownId, value);
+                    const dropdown = document.getElementById(dropdownId);
+                    updateDropdownItems(dropdown);
+                }
             });
         });
     };
 
-    const removeSelectedItem = (key, value) => {
+    const removeSelectedItem = (dropdownId, value) => {
         const url = new URL(window.location);
-        const values = url.searchParams.get(key).split(',');
+        const values = url.searchParams.get(dropdownId)?.split(',') || [];
         const newValues = values.filter(val => val !== value);
+
         if (newValues.length > 0) {
-            url.searchParams.set(key, newValues.join(','));
+            url.searchParams.set(dropdownId, newValues.join(','));
         } else {
-            url.searchParams.delete(key);
+            url.searchParams.delete(dropdownId);
         }
+
         window.history.pushState({}, '', url);
         updateSelectedItems();
     };
 
+    const updateDropdownItems = (dropdown) => {
+        const dropdownId = dropdown.id;
+        const url = new URL(window.location);
+        const selectedValues = url.searchParams.get(dropdownId)?.split(',') || [];
+
+        const items = dropdown.querySelectorAll('.dropdown-item');
+        items.forEach(item => {
+            const value = item.getAttribute('data-value');
+            item.classList.toggle('selected', selectedValues.includes(value));
+        });
+    };
+
     updateSelectedItems();
-}
+};
 
 export const render = (recipes) => {
     const length = recipes.length;
 
     return `
-    <div class="recipeHeader">
-        <div class="dropdown-container">
-            ${ingredients(recipes)}
-            ${Ustensiles(recipes)}
-            ${Appareils(recipes)}
+        <div class="recipeHeader">
+            <div class="dropdown-container">
+                ${ingredients(recipes)}
+                ${Ustensiles(recipes)}
+                ${Appareils(recipes)}
+            </div>
+            <h3 class="filterResult">${length > 0 ? `${length} recettes` : 'Aucune recette trouvée'}</h3>
         </div>
-        <h3 class="filterResult">${length > 0 ? `${length} recettes` : 'Aucune recette trouvée'}</h3>
-    </div>
-     <div class="selected-items" id="selectedItemsContainer"></div>
+        <div class="selected-items" id="selectedItemsContainer"></div>
     `;
 };
 
 export const event = () => {
     customSelectEvent();
-}
+};
 
 export default {
     render,
-    event
+    event,
 };

@@ -3,7 +3,7 @@ import RecipeCard from "../components/RecipeCard.js";
 import { recipes } from "../data/recipes.js";
 import Filter from "../components/Filter.js";
 
-const displayPages = (recipe) => {
+export const displayPages = (recipe) => {
     const app = document.querySelector("#app");
 
     app.innerHTML = `
@@ -22,6 +22,9 @@ const displayPages = (recipe) => {
 };
 
 (async () => {
-    
     displayPages(recipes);
 })();
+
+export default {
+    displayPages
+};
