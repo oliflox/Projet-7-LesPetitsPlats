@@ -42,7 +42,6 @@ body {
 }
 
 .inputElement {
-
     font-size: var(--spacing-md);
     border: none;
     border-radius: var(--lightRadius);
@@ -64,6 +63,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom:var(--spacing-lg) ;
 }
 
 .filterResult{
@@ -235,7 +235,6 @@ body {
 
 .dropdown-item:hover {
     background-color: var(--grey);
-    border-radius: var(--lightRadius);
 }
 
 
@@ -243,19 +242,18 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-sm);
-    margin-top: var(--spacing-lg);
 }
 
 .selected-item {
     background-color: var(--yellow);
     padding: var(--spacing-md);
-    border-radius: var(--lightRadius);
     min-width: 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: var(--spacing-sm);
     font-weight: var(--lightbold);
+    border-radius: var(--lightRadius);
 }
 
 .selected-item .remove-btn {
@@ -266,3 +264,14 @@ body {
     font-size: var(--subtitleFontSize);
 }
 
+.dropdown .filter-tag{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-xs);
+}
+
+.dropdown .filter-tag-items{
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius:0%;
+}

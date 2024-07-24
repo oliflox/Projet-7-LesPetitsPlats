@@ -8,7 +8,7 @@ const filter = (id, buttonText, options) => {
             </button>
             <ul class="dropdown-menu hidden">
                 <input type="text" class="dropdown-search" placeholder="Search...">
-                <ul class="selected-items"></ul>
+                <ul class="selected-items filter-tag"></ul>
                 ${optionsHTML}
             </ul>
         </div>
@@ -116,7 +116,7 @@ export const customSelectEvent = () => {
             const values = url.searchParams.get(dropdownId)?.split(',') || [];
             values.forEach(val => {
                 const item = document.createElement('li');
-                item.className = 'selected-item';
+                item.className = 'selected-item filter-tag-items'; 
                 item.textContent = val;
 
                 const removeBtn = document.createElement('button');
