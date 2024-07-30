@@ -306,4 +306,15 @@ body {
 
 .selected{
     background-color: var(--yellow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.selected .remove-btn{
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: var(--lightbold);
+    font-size: var(--subtitleFontSize);
 }

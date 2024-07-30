@@ -21,19 +21,32 @@ const filter = (id, buttonText, options) => {
                         <i class="fa fa-search search-icon"></i>
                     </div>
                 </div>
-                <ul class="selected-items filter-tag"></ul>
                 ${optionsHTML}
             </ul>
         </div>
     `;
 };
 
+const ingredients = (recipes) => {
+    const uniqueIngredients = [...new Set(recipes.flatMap(recipe => recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase())))];
+    return filter("Ingredients", "Ingrédients", uniqueIngredients);
+};
 
+const Ustensiles = (recipes) => {
+    const uniqueUstensiles = [...new Set(recipes.flatMap(recipe => recipe.ustensils.map(ustensil => ustensil.toLowerCase())))];
+    return filter("Ustensiles", "Ustensiles", uniqueUstensiles);
+};
+
+const Appareils = (recipes) => {
+    const appliances = [...new Set(recipes.map(recipe => recipe.appliance.toLowerCase()))];
+    return filter("Appareils", "Appareils", appliances);
+};
 
 window.OpenDropdown = (dropdownId) => {
     const dropdown = document.getElementById(dropdownId);
     const menu = dropdown.querySelector('.dropdown-menu');
     menu.classList.toggle('hidden');
+    menu.classList.toggle('show');
 };
 
 window.filterDropdown = (dropdownId, query) => {
@@ -47,13 +60,6 @@ window.filterDropdown = (dropdownId, query) => {
     });
 };
 
-window.selectDropdownItem = (dropdownId, value) => {
-    setURLParams(dropdownId, value);
-    updateSelectedItems();
-    const dropdown = document.getElementById(dropdownId);
-    updateDropdownItems(dropdown);
-};
-
 window.clearSearchInput = (dropdownId) => {
     const dropdown = document.getElementById(dropdownId);
     const searchInput = dropdown.querySelector('.dropdown-search');
@@ -61,8 +67,17 @@ window.clearSearchInput = (dropdownId) => {
     filterDropdown(dropdownId, '');
 };
 
+window.selectDropdownItem = (dropdownId, value) => {
+    setURLParams(dropdownId, value);
+    updateSelectedItems();
+    const dropdown = document.getElementById(dropdownId);
+    updateDropdownItems(dropdown);
+};
+
 const updateSelectedItems = () => {
     const params = getURLParams();
+    const selectedItemsContainer = document.getElementById('selectedItemsContainer');
+    selectedItemsContainer.innerHTML = '';
 
     const dropdowns = document.querySelectorAll('.dropdown');
     dropdowns.forEach(dropdown => {
@@ -76,6 +91,7 @@ const updateSelectedItems = () => {
             if (selectedValues.has(value)) {
                 item.classList.add('selected');
                 removeBtn.classList.remove('hidden');
+                addSelectedItemToContainer(selectedItemsContainer, dropdownId, value);
             } else {
                 item.classList.remove('selected');
                 removeBtn.classList.add('hidden');
@@ -84,7 +100,27 @@ const updateSelectedItems = () => {
     });
 };
 
+const addSelectedItemToContainer = (container, dropdownId, value) => {
+    const item = document.createElement('li');
+    item.className = 'selected-item filter-tag-items'; 
+    item.textContent = value;
 
+    const removeBtn = document.createElement('button');
+    removeBtn.className = 'remove-btn';
+    removeBtn.innerHTML = '&times;';
+    removeBtn.onclick = () => {
+        removeSelectedItem(dropdownId, value);
+        updateDropdownItems(document.getElementById(dropdownId));
+    };
+
+    item.appendChild(removeBtn);
+    container.appendChild(item);
+};
+
+const removeSelectedItem = (dropdownId, value) => {
+    setURLParams(dropdownId, value);
+    updateSelectedItems();
+};
 
 const updateDropdownItems = (dropdown) => {
     const dropdownId = dropdown.id;
@@ -113,31 +149,12 @@ export const render = (recipes) => {
         <div class="selected-items" id="selectedItemsContainer"></div>
     `;
 };
-
-export const event = () => {
-    customSelectEvent();
-};
-
 export default {
     render,
-    event,
 };
 
 
 
 
 
-const ingredients = (recipes) => {
-    const uniqueIngredients = [...new Set(recipes.flatMap(recipe => recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase())))];
-    return filter("Ingredients", "Ingrédients", uniqueIngredients);
-};
 
-const Ustensiles = (recipes) => {
-    const uniqueUstensiles = [...new Set(recipes.flatMap(recipe => recipe.ustensils.map(ustensil => ustensil.toLowerCase())))];
-    return filter("Ustensiles", "Ustensiles", uniqueUstensiles);
-};
-
-const Appareils = (recipes) => {
-    const appliances = [...new Set(recipes.map(recipe => recipe.appliance.toLowerCase()))];
-    return filter("Appareils", "Appareils", appliances);
-};
