@@ -4,27 +4,23 @@ import { recipes } from "../data/recipes.js";
 import Filter from "../components/Filter.js";
 
 export const displayPages = (recipe) => {
-    const app = document.querySelector("#app");
+  const app = document.querySelector("#app");
 
-    app.innerHTML = `
+  app.innerHTML = `
         ${SearchContainer()}
         <section class="recipeSection">
             ${Filter.render(recipe)}
             <div class="recipeGrid">
-            ${recipe
-            .map((recipes) => RecipeCard.render(recipes))
-            .join("")}
+            ${recipe.map((recipes) => RecipeCard.render(recipes)).join("")}
             </div>
         </section>
-    `
-    Filter.event();
-
+    `;
 };
 
 (async () => {
-    displayPages(recipes);
+  displayPages(recipes);
 })();
 
 export default {
-    displayPages
+  displayPages,
 };
