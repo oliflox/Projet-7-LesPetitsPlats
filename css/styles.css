@@ -316,5 +316,4 @@ body {
     border: none;
     cursor: pointer;
     font-weight: var(--lightbold);
-    font-size: var(--subtitleFontSize);
 }
