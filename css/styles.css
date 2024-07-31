@@ -61,6 +61,12 @@ body {
     right: var(--spacing-lg);
     top: 50%;
     transform: translateY(-50%);
+    background-color: var(--black);
+    padding: var(--spacing-sm);
+    color: var(--white);
+    font-size: var(--subtitleFontSize);
+    border-radius:var(--lightRadius) ;
+    cursor: pointer;
 }
 
 .recipeSection {

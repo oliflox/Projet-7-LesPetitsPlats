@@ -1,4 +1,5 @@
 import { setURLParams } from '../utils/getUrlParams.js';
+import { displayPages } from '../pages/index.js';
 
 export const SearchContainer = () => {
     return `
@@ -17,8 +18,8 @@ export const SearchContainer = () => {
 
 window.handleSearch = () => {
     const query = document.getElementById('searchInput').value;
-    // Set the new search parameter with overwrite
     setURLParams('search', query, true);
+    displayPages();
 };
 
 window.handleKeyPress = (event) => {
