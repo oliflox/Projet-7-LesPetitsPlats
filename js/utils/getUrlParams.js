@@ -24,9 +24,14 @@ export const getURLParams = () => {
   return params;
 };
 
-export const setURLParams = (key, value) => {
+export const setURLParams = (key, value, overwrite) => {
   const url = new URL(window.location);
   const searchParam = new URLSearchParams(url.search);
+  overwrite = overwrite || false;
+
+  if (overwrite) {
+    searchParam.delete(key);
+  }
 
   const values = new Set(searchParam.get(key)?.split(',') || []);
   if (values.has(value)) {
@@ -43,7 +48,6 @@ export const setURLParams = (key, value) => {
 
   window.history.pushState({}, '', `${window.location.pathname}?${searchParam.toString()}`);
 };
-
 
 export default {
   getURLParams,

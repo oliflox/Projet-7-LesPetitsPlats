@@ -6,23 +6,22 @@ body {
     font-family: var(--bodyFont);
 }
 
-.headerLogo {
-    position: absolute;
-    top: var(--spacing-5xl);
-    left: var(--spacing-5xl);
-}
-
 .searchSection {
-    background-image: url(../assets/img/Header-img.jpg);
+    background-image: url('../assets/img/Header-img.jpg');
     background-size: cover;
     background-position: center;
     height: 650px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
     position: relative;
+}
 
+.headerLogo {
+    position: absolute;
+    top: var(--spacing-3xl);
+    left: var(--spacing-3xl);
 }
 
 .headerTitle {
@@ -32,17 +31,19 @@ body {
     text-transform: uppercase;
     color: var(--yellow);
     text-align: center;
+    margin-bottom: var(--spacing-3xl);
     margin: var(--titleMargin);
     line-height: var(--titleLineHeight);
 }
 
-.headerInput {
-    padding: var(--spacing-xl) var(--spacing-2xl);
+.searchInputContainer {
+    position: relative;
     width: 50%;
 }
 
-.inputElement {
-    font-size: var(--spacing-md);
+.headerInput {
+    width: 100%;
+    padding: var(--spacing-xl ) var(--spacing-2xl);
     border: none;
     border-radius: var(--lightRadius);
 }
@@ -53,6 +54,13 @@ body {
 
 .headerInput:focus {
     outline: none;
+}
+
+.searchIcon {
+    position: absolute;
+    right: var(--spacing-lg);
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .recipeSection {
