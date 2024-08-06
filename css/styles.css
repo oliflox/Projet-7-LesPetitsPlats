@@ -56,17 +56,29 @@ body {
     outline: none;
 }
 
-.searchIcon {
+.searchIconContainer {
     position: absolute;
-    right: var(--spacing-lg);
+    right: 20px;
     top: 50%;
     transform: translateY(-50%);
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.searchIcon {
     background-color: var(--black);
     padding: var(--spacing-sm);
     color: var(--white);
     font-size: var(--subtitleFontSize);
     border-radius:var(--lightRadius) ;
     cursor: pointer;
+}
+
+.clearIcon {
+    font-size: var(--titleCardFontSize);
+    cursor: pointer;
+    color: var(--lightgray);
 }
 
 .recipeSection {

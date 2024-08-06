@@ -9,8 +9,11 @@ export const SearchContainer = () => {
         </header>
         <h1 class="headerTitle">cherchez parmi plus de 1500 recettes du quotidien, simples et délicieuses</h1>
         <div class="searchInputContainer">
-            <input class="headerInput inputElement" id="searchInput" placeholder="rechercher une recette, un ingrédient, ..." type="text" onkeypress="handleKeyPress(event)">
-            <i class="fa fa-search searchIcon" onclick="handleSearch()"></i>
+            <input class="headerInput inputElement" id="searchInput" placeholder="Rechercher une recette, un ingrédient, ..." type="text" onkeypress="handleKeyPress(event)">
+            <div class="searchIconContainer">
+                <i class="fa fa-times clearIcon" onclick="clearSearchInput()"></i>
+                <i class="fa fa-search searchIcon" onclick="handleSearch()"></i>
+            </div>
         </div>
     </section>
     `;
@@ -25,5 +28,12 @@ window.handleSearch = () => {
 window.handleKeyPress = (event) => {
     if (event.key === 'Enter') {
         handleSearch();
+    }
+};
+
+window.clearSearchInput = () => {
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.value = '';
     }
 };
