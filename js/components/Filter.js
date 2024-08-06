@@ -17,7 +17,7 @@ const filter = (id, buttonText, options) => {
                 <div class="dropdown-search-container">
                     <input type="text" class="dropdown-search" placeholder="Search..." oninput="filterDropdown('${id}', this.value)">
                     <div class="dropdown-search-icon">
-                        <button class="clear-btn" onclick="clearSearchInput('${id}')">&times;</button>
+                        <button class="clear-btn" onclick="clearSearchInputFilter('${id}')">&times;</button>
                         <i class="fa fa-search search-icon"></i>
                     </div>
                 </div>
@@ -60,7 +60,7 @@ window.filterDropdown = (dropdownId, query) => {
     });
 };
 
-window.clearSearchInput = (dropdownId) => {
+window.clearSearchInputFilter = (dropdownId) => {
     const dropdown = document.getElementById(dropdownId);
     const searchInput = dropdown.querySelector('.dropdown-search');
     searchInput.value = '';
