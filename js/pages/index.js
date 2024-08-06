@@ -4,18 +4,16 @@ import { recipes } from "../data/recipes.js";
 import Filter from "../components/Filter.js";
 import { getURLParams } from "../utils/getUrlParams.js";
 
-const normalizeString = (str) => {
-  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-};
-
 const filterRecipesBySearch = () => {
   const params = getURLParams();
   let filteredRecipes = [...recipes];
 
   if (params.search && params.search.length > 0) {
-    const searchQuery = normalizeString(params.search[0]);
+    const searchQuery = params.search[0].toLowerCase();
     filteredRecipes = filteredRecipes.filter(recipe =>
-      normalizeString(recipe.name).includes(searchQuery)
+      recipe.name.toLowerCase().includes(searchQuery) ||
+      recipe.description.toLowerCase().includes(searchQuery) ||
+      recipe.ingredients.some(i => i.ingredient.toLowerCase().includes(searchQuery))
     );
   }
 
@@ -33,8 +31,8 @@ export const displayPages = () => {
             <div class="recipeGrid">
             ${filteredRecipes.map((recipe) => RecipeCard.render(recipe)).join("")}
             </div>
-        </section>
-    `;
+        </section>`
+    ;
 };
 
 (async () => {

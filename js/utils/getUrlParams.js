@@ -49,6 +49,8 @@ export const setURLParams = (key, value, overwrite) => {
   window.history.pushState({}, '', `${window.location.pathname}?${searchParam.toString()}`);
 };
 
+
+
 export default {
   getURLParams,
   setURLParams,
