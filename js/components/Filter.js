@@ -1,3 +1,4 @@
+import { displayPages } from '../pages/index.js';
 import { setURLParams, getURLParams } from '../utils/getUrlParams.js';
 
 const filter = (id, buttonText, options) => {
@@ -29,17 +30,17 @@ const filter = (id, buttonText, options) => {
 
 const ingredients = (recipes) => {
     const uniqueIngredients = [...new Set(recipes.flatMap(recipe => recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase())))];
-    return filter("Ingredients", "Ingrédients", uniqueIngredients);
+    return filter("ingredients", "Ingrédients", uniqueIngredients);
 };
 
-const Ustensiles = (recipes) => {
+const ustensiles = (recipes) => {
     const uniqueUstensiles = [...new Set(recipes.flatMap(recipe => recipe.ustensils.map(ustensil => ustensil.toLowerCase())))];
-    return filter("Ustensiles", "Ustensiles", uniqueUstensiles);
+    return filter("ustensiles", "Ustensiles", uniqueUstensiles);
 };
 
-const Appareils = (recipes) => {
+const appareils = (recipes) => {
     const appliances = [...new Set(recipes.map(recipe => recipe.appliance.toLowerCase()))];
-    return filter("Appareils", "Appareils", appliances);
+    return filter("appareils", "Appareils", appliances);
 };
 
 window.OpenDropdown = (dropdownId) => {
@@ -98,6 +99,7 @@ const updateSelectedItems = () => {
             }
         });
     });
+    displayPages();
 };
 
 const addSelectedItemToContainer = (container, dropdownId, value) => {
@@ -115,11 +117,13 @@ const addSelectedItemToContainer = (container, dropdownId, value) => {
 
     item.appendChild(removeBtn);
     container.appendChild(item);
+    displayPages();
 };
 
 const removeSelectedItem = (dropdownId, value) => {
     setURLParams(dropdownId, value);
     updateSelectedItems();
+    displayPages();
 };
 
 const updateDropdownItems = (dropdown) => {
@@ -141,20 +145,15 @@ export const render = (recipes) => {
         <div class="recipeHeader">
             <div class="dropdown-container">
                 ${ingredients(recipes)}
-                ${Ustensiles(recipes)}
-                ${Appareils(recipes)}
+                ${ustensiles(recipes)}
+                ${appareils(recipes)}
             </div>
             <h3 class="filterResult">${length > 0 ? `${length} recettes` : 'Aucune recette trouvée'}</h3>
         </div>
         <div class="selected-items" id="selectedItemsContainer"></div>
     `;
 };
+
 export default {
     render,
 };
-
-
-
-
-
-
