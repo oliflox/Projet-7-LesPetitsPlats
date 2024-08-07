@@ -5,7 +5,7 @@ const filter = (id, buttonText, options) => {
     const optionsHTML = options.map(option => `
         <li class="dropdown-item" data-value="${option}" onclick="selectDropdownItem('${id}', '${option}')">
             ${option}
-            <button class="remove-btn hidden" onclick="removeSelectedItem('${id}', '${option}'); event.stopPropagation();">&times;</button>
+            <button class="remove-btn hidden">&times;</button>
         </li>
     `).join('');
     return `
@@ -47,7 +47,6 @@ window.OpenDropdown = (dropdownId) => {
     const dropdown = document.getElementById(dropdownId);
     const menu = dropdown.querySelector('.dropdown-menu');
     menu.classList.toggle('hidden');
-    menu.classList.toggle('show');
 };
 
 window.filterDropdown = (dropdownId, query) => {
@@ -135,6 +134,14 @@ const updateDropdownItems = (dropdown) => {
     items.forEach(item => {
         const value = item.getAttribute('data-value');
         item.classList.toggle('selected', selectedValues.has(value));
+        const removeBtn = item.querySelector('.remove-btn');
+        if (selectedValues.has(value)) {
+            item.classList.add('selected');
+            removeBtn.classList.remove('hidden');
+        } else {
+            item.classList.remove('selected');
+            removeBtn.classList.add('hidden');
+        }
     });
 };
 

@@ -75,6 +75,12 @@ body {
     cursor: pointer;
 }
 
+.searchIcon:hover {
+    background-color: var(--yellow);
+    transition-duration: 0.3s;
+    color: var(--black);
+}
+
 .clearIcon {
     font-size: var(--titleCardFontSize);
     cursor: pointer;
