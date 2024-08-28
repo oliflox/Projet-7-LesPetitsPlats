@@ -315,9 +315,8 @@ body {
 .selected-item .remove-btn {
     background: none;
     border: none;
-    font-weight: var(--regular);
     cursor: pointer;
-    font-size: var(--subtitleFontSize);
+    font-weight: var(--bold);
 }
 
 .dropdown .filter-tag{
@@ -349,3 +348,4 @@ body {
     cursor: pointer;
     font-weight: var(--lightbold);
 }
+

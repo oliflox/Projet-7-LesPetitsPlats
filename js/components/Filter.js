@@ -1,4 +1,3 @@
-import { setURLParams } from '../utils/getUrlParams.js';
 import ActiveFilter from './ActiveFilter.js';
 
 const filter = (id, buttonText, options) => {
@@ -68,10 +67,7 @@ window.clearSearchInputFilter = (dropdownId) => {
 };
 
 window.selectDropdownItem = (dropdownId, value) => {
-    setURLParams(dropdownId, value);
-    ActiveFilter.updateSelectedItems();
-    const dropdown = document.getElementById(dropdownId);
-    ActiveFilter.updateDropdownItems(dropdown);
+    ActiveFilter.updateSelectedItems(dropdownId, value);
 };
 
 
