@@ -87,7 +87,6 @@ export const render = (recipes) => {
             </div>
             <h3 class="filterResult">${length > 0 ? `${length} recettes` : 'Aucune recette trouvée'}</h3>
         </div>
-        <div class="selected-items" id="selectedItemsContainer"></div>
     `;
 };
 

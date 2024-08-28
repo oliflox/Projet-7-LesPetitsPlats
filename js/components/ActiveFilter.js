@@ -72,9 +72,16 @@ export const updateDropdownItems = (dropdown) => {
     });
 };
 
+export const render = () => {
+    return`
+    <div class="selected-items" id="selectedItemsContainer"></div>
+    `;
+}
+
 export default {
     updateSelectedItems,
     updateDropdownItems,
     removeSelectedItem,
     addSelectedItemToContainer,
+    render,
 }
