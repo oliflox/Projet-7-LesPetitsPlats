@@ -7,12 +7,20 @@ export const updateSelectedItems = (dropdownId, value) => {
 };
 
 window.removeSelectedItems = (value) => {
+    const params = getURLParams();
+
+    for (const key in params) {
+        if (params[key].includes(value)) {
+            setURLParams(key, value);
+            break;
+        }
+    }
+    
     displayPages();
 };
 
 export const render = () => {
     const params = getURLParams();
-
     const listItems = Object.values(params).flat().map(value => `<p class="selected-item">${value}<span onclick="removeSelectedItems('${value}')" class="remove-btn">X</span><p>`).join('');
 
     return `
