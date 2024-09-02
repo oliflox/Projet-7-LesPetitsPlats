@@ -25,6 +25,7 @@
     --subtitleCardFontSize: .75rem;
     --bodyCardFontSize: .875rem;
 
+    --commonTransition: .3s;
 
     --lightRadius: .75rem;
     --boldRadius: 1.5rem;
@@ -41,7 +42,9 @@
     --spacing-4xl: 3rem;
     --spacing-5xl: 3.5rem;
     --spacing-6xl: 4rem;
+    --spacing-7xl: 5rem;
     --spacing-body: 100px;
+
 
     --titleMargin: 0 275px var(--spacing-2xl) 275px;
     --titleLineHeight: 66px;

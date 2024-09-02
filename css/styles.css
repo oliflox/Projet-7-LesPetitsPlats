@@ -31,21 +31,27 @@ body {
     text-transform: uppercase;
     color: var(--yellow);
     text-align: center;
+    margin:0 30%;
     margin-bottom: var(--spacing-3xl);
-    margin: var(--titleMargin);
     line-height: var(--titleLineHeight);
 }
 
 .searchInputContainer {
     position: relative;
+    height: var(--spacing-7xl);
     width: 50%;
+    background-color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-md);
+    padding-left: var(--spacing-2xl);
+    border-radius: var(--lightRadius);
 }
 
 .headerInput {
     width: 100%;
-    padding: var(--spacing-xl ) var(--spacing-2xl);
     border: none;
-    border-radius: var(--lightRadius);
 }
 
 .headerInput::placeholder {
@@ -57,10 +63,6 @@ body {
 }
 
 .searchIconContainer {
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
     display: flex;
     gap: 15px;
     align-items: center;
@@ -77,7 +79,7 @@ body {
 
 .searchIcon:hover {
     background-color: var(--yellow);
-    transition-duration: 0.3s;
+    transition-duration: var(--commonTransition);
     color: var(--black);
 }
 
@@ -85,6 +87,11 @@ body {
     font-size: var(--titleCardFontSize);
     cursor: pointer;
     color: var(--lightgray);
+}
+
+.clearIcon:hover {
+    color: var(--black);
+    transition-duration: var(--commonTransition);
 }
 
 .recipeSection {
@@ -192,7 +199,7 @@ body {
 
 .dropdown-button {
     background-color: white;
-    padding: var(--spacing-sm) var(--spacing-lg);
+    padding: var(--spacing-lg);
     border: none;
     cursor: pointer;
     border-radius: var(--lightRadius);
