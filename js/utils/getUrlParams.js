@@ -46,7 +46,7 @@ export const setURLParams = (key, value, overwrite = false) => {
       searchParam.delete(key);
     }
   } else {
-    searchParam.delete(key); 
+    searchParam.delete(key);
   }
 
   window.history.pushState({}, '', `${window.location.pathname}?${searchParam.toString()}`);

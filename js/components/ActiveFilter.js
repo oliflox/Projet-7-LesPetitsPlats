@@ -15,7 +15,7 @@ window.removeSelectedItems = (value) => {
             break;
         }
     }
-    
+
     displayPages();
 };
 
@@ -32,6 +32,5 @@ export const render = () => {
 
 export default {
     updateSelectedItems,
-    removeSelectedItems,
     render,
 }
