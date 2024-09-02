@@ -1,4 +1,5 @@
 import ActiveFilter from './ActiveFilter.js';
+import { getURLParams } from '../utils/getUrlParams.js';
 
 const filter = (id, buttonText, options) => {
     const optionsHTML = options.map(option => `
@@ -70,6 +71,17 @@ window.selectDropdownItem = (dropdownId, value) => {
     ActiveFilter.updateSelectedItems(dropdownId, value);
 };
 
+export const selectedFilter = () => {
+    const params = getURLParams();
+    for (const [key, values] of Object.entries(params)) {
+        values.forEach(value => {
+            const dropdown = document.getElementById(key);
+            const item = dropdown.querySelector(`[data-value="${value}"]`);
+            item.classList.add('selected');
+            item.querySelector('.remove-btn').classList.remove('hidden');
+        });
+    }
+};
 
 export const render = (recipes) => {
     const length = recipes.length;
@@ -88,4 +100,5 @@ export const render = (recipes) => {
 
 export default {
     render,
+    selectedFilter
 };

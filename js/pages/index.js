@@ -8,6 +8,7 @@ export const displayPages = () => {
   const filteredRecipes = SearchAlgo.filterRecipesBySearch();
   const app = document.querySelector("#app");
 
+
   app.innerHTML = `
         ${SearchContainer()}
         <section class="recipeSection">
@@ -15,10 +16,12 @@ export const displayPages = () => {
             ${ActiveFilter.render()}
             <div class="recipeGrid">
             ${filteredRecipes
-              .map((recipe) => RecipeCard.render(recipe))
-              .join("")}
+      .map((recipe) => RecipeCard.render(recipe))
+      .join("")}
             </div>
         </section>`;
+
+  Filter.selectedFilter();
 };
 
 (async () => {
