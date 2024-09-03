@@ -47,6 +47,13 @@ window.OpenDropdown = (dropdownId) => {
     const dropdown = document.getElementById(dropdownId);
     const menu = dropdown.querySelector('.dropdown-menu');
     menu.classList.toggle('hidden');
+    dropdownArrow(dropdownId);
+};
+
+const dropdownArrow = (dropdownId) => {
+    const dropdown = document.getElementById(dropdownId);
+    const arrow = dropdown.querySelector('.fa-angle-down');
+    arrow.classList.toggle('fa-angle-up');
 };
 
 window.filterDropdown = (dropdownId, query) => {
