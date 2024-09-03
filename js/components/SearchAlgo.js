@@ -8,40 +8,31 @@ const filterRecipesBySearch = () => {
   const ustensiles = params.ustensiles ? params.ustensiles.map(ustensil => ustensil.toLowerCase()) : [];
   const appareils = params.appareils ? params.appareils.map(appareil => appareil.toLowerCase()) : [];
 
-  const filteredRecipes = [];
-
-  for (let i = 0; i < recipes.length; i++) {
-    const recipe = recipes[i];
+  return recipes.filter(recipe => {
     const recipeName = recipe.name.toLowerCase();
     const recipeDescription = recipe.description.toLowerCase();
     const recipeIngredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase());
     const recipeUstensiles = recipe.ustensils.map(ustensil => ustensil.toLowerCase());
     const recipeAppareils = recipe.appliance.toLowerCase();
 
-    let isMatching = true;
+    const matchesSearchQuery = !searchQuery || 
+      recipeName.includes(searchQuery) || 
+      recipeDescription.includes(searchQuery) || 
+      recipeIngredients.find(ingredient => ingredient.includes(searchQuery)) || 
+      recipeUstensiles.find(ustensil => ustensil.includes(searchQuery)) || 
+      recipeAppareils.includes(searchQuery);
 
-    if (searchQuery && !(recipeName.includes(searchQuery) || recipeDescription.includes(searchQuery) || recipeIngredients.some(ingredient => ingredient.includes(searchQuery)) || recipeUstensiles.some(ustensil => ustensil.includes(searchQuery)) || recipeAppareils.includes(searchQuery))) {
-      isMatching = false;
-    }
+    const matchesIngredients = ingredients.length === 0 || 
+      ingredients.every(ingredient => recipeIngredients.includes(ingredient));
 
-    if (isMatching && ingredients.length > 0 && !ingredients.every(ingredient => recipeIngredients.includes(ingredient))) {
-      isMatching = false;
-    }
+    const matchesUstensiles = ustensiles.length === 0 || 
+      ustensiles.every(ustensil => recipeUstensiles.includes(ustensil));
 
-    if (isMatching && ustensiles.length > 0 && !ustensiles.every(ustensil => recipeUstensiles.includes(ustensil))) {
-      isMatching = false;
-    }
+    const matchesAppareils = appareils.length === 0 || 
+      appareils.includes(recipeAppareils);
 
-    if (isMatching && appareils.length > 0 && !appareils.includes(recipeAppareils)) {
-      isMatching = false;
-    }
-
-    if (isMatching) {
-      filteredRecipes.push(recipe);
-    }
-  }
-
-  return filteredRecipes;
+    return matchesSearchQuery && matchesIngredients && matchesUstensiles && matchesAppareils;
+  });
 };
 
 
