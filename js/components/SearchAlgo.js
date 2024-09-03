@@ -16,10 +16,10 @@ const filterRecipesBySearch = () => {
     const recipeAppareils = recipe.appliance.toLowerCase();
 
     const matchesSearchQuery = !searchQuery || 
-      recipeName.includes(searchQuery) || 
-      recipeDescription.includes(searchQuery) || 
-      recipeIngredients.find(ingredient => ingredient.includes(searchQuery)) || 
-      recipeUstensiles.find(ustensil => ustensil.includes(searchQuery)) || 
+      recipeName.includes(searchQuery) ||
+      recipeDescription.includes(searchQuery) ||
+      recipeIngredients.some(ingredient => ingredient.includes(searchQuery)) ||
+      recipeUstensiles.some(ustensil => ustensil.includes(searchQuery)) ||
       recipeAppareils.includes(searchQuery);
 
     const matchesIngredients = ingredients.length === 0 || 
@@ -34,6 +34,7 @@ const filterRecipesBySearch = () => {
     return matchesSearchQuery && matchesIngredients && matchesUstensiles && matchesAppareils;
   });
 };
+
 
 
   export default {
