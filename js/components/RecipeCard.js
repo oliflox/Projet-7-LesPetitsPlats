@@ -18,7 +18,7 @@ export const render = (recipes) => {
             <div class="recipeDuration">
                 ${time} min
             </div>
-            <img class="recipeCardImage" src="../assets/recipies/${image}" alt="${name}">
+            <img class="recipeCardImage" src="./assets/recipies/${image}" alt="${name}">
             <div class="recipeCardContent">
                 <h3 class="recipeCardTitle">${name}</h3>
                 <div>
